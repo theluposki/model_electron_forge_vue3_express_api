@@ -1,0 +1,33 @@
+{
+  "model": {
+    "produto": {
+      "codigo":"",
+      "qr":"",
+      "nome":"",
+      "descricao":"",
+      "peso-liquido":"",
+      "peso-bruto":"",
+      "unidade-de-medida":"",
+      "categoria":"",
+      "subcategoria":"",
+      "marca":"",
+      "fornecedor":"",
+      "preco-de-venda":"",
+      "preco-de-custo":"",
+      "estoque-atual":"0",
+      "limite-de-estoque":"",
+      "observacoes":"",
+      "imagem":""
+    },
+    "fornecedor":[],
+    "estoque": {
+      "imagem":"",
+      "produto":"",
+      "estoque-atual":"",
+      "categoria":"",
+      "marca":"",
+      "preco":"",
+      "codigo-produto":""
+    }
+  }
+}
