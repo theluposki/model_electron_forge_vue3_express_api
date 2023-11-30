@@ -11,6 +11,6 @@ CREATE TABLE IF NOT EXISTS
         senha TEXT NOT NULL,
         data_nascimento INTEGER NOT NULL,
         autorizacao TEXT DEFAULT '["basico"]',
-        created_at INTEGER DEFAULT (strftime('%s', 'now')),
-        update_at INTEGER DEFAULT (strftime('%s', 'now'))
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );

@@ -196,7 +196,7 @@ a {
   box-shadow: inset 0 0 6px var(--white);
 }
 
-.form-group > .btn {
+.form-group > .btn, .btn {
   background-color: var(--dark);
   color: var(--white);
   border: none;
@@ -209,11 +209,11 @@ a {
   cursor: pointer;
 }
 
-.form-group > .btn:hover {
+.form-group > .btn:hover, .btn:hover  {
   transition: all ease 0.2s;
   background-color: var(--dark2);
 }
-.form-group > .btn:active {
+.form-group > .btn:active, .btn:active  {
   scale: 0.95;
 }
 

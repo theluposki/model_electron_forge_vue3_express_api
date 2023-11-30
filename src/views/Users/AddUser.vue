@@ -4,6 +4,7 @@ import { Emitter } from "../../utils/Emitter.js";
 
 onMounted(async () => {
   Emitter.emit("route-name", "Adicionar novo usuário");
+  Emitter.emit("disable-search");
 });
 </script>
 <template>

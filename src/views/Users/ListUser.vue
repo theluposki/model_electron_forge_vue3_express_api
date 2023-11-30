@@ -8,7 +8,6 @@ import { showNotification } from "../../components/Layout/NotificationService.js
 const users = ref([])
 
 Emitter.on("search", async (value) => {
-  console.log('count', value.length);
   if (value === '')  {
     users.value = await getUsers();
     return
@@ -17,6 +16,10 @@ Emitter.on("search", async (value) => {
   users.value = await searchByLikeName(value)
 });
 
+Emitter.on("refresh", async () => {
+  await refreshGetUsers();
+})
+
 const getUsers = async () => {
   try {
     const response = await api.get(`/users`);
@@ -24,16 +27,9 @@ const getUsers = async () => {
     const result = response.data;
     return result
   } catch (error) {
-    if (error.code === "ERR_NETWORK") {
-      showNotification(
-        "Erro de conexão: O servidor recusou a conexão.",
-        "error"
-      );
-      console.log("error: ", error.code);
-    }
     if (error.response) {
       const data = error.response.data;
-      console.log(data);
+      console.error(data);
       showNotification(error.response.data.error, "error");
     }
   }
@@ -49,23 +45,21 @@ const searchByLikeName = async (value) => {
 
     return result
   } catch (error) {
-    if (error.code === "ERR_NETWORK") {
-      showNotification(
-        "Erro de conexão: O servidor recusou a conexão.",
-        "error"
-      );
-      console.log("error: ", error.code);
-    }
     if (error.response) {
       const data = error.response.data;
-      console.log(data);
+      console.error(data);
       showNotification(error.response.data.error, "error");
     }
   }
 }
 
+const refreshGetUsers = async () => {
+  users.value = await getUsers();
+}
+
 onMounted(async () => {
   Emitter.emit("route-name", "Lista de usuários");
+  Emitter.emit("enable-search")
   users.value = await getUsers();
 });
 </script>

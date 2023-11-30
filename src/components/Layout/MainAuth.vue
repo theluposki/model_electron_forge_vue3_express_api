@@ -39,13 +39,6 @@ const login = async () => {
 
     userStore.setUser(myuser.data);
   } catch (error) {
-    if (error.code === "ERR_NETWORK") {
-      showNotification(
-        "Erro de conexão: O servidor recusou a conexão.",
-        "error"
-      );
-      console.log("error: ", error.code);
-    }
     if (error.response) {
       const data = error.response.data;
       console.log(data);

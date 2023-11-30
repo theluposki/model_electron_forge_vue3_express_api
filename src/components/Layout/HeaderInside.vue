@@ -6,17 +6,23 @@ import { Emitter } from "../../utils/Emitter.js";
 const routeName = ref("");
 
 const search = ref(null);
+const searchView = ref(false);
 
 defineProps({
   icon: String,
   routes: Array,
-  searchView: Boolean,
   searchPlaceholder: String,
 });
 
-Emitter.on("route-name", (name) => {
-  routeName.value = name;
-});
+Emitter.on("route-name", (name) => routeName.value = name);
+
+Emitter.on("enable-search", () => {
+  searchView.value = true
+})
+
+Emitter.on("disable-search", () => {
+  searchView.value = false
+})
 
 let timeoutSearch;
 
@@ -31,6 +37,11 @@ const emitSearch = () => {
     Emitter.emit("search", search.value);
   }, 200);
 };
+
+const emitRefresh = () => {
+  Emitter.emit("refresh");
+  search.value = null;
+}
 
 onMounted(() => {
   search.value = null;
@@ -48,6 +59,9 @@ onMounted(() => {
 
     <div class="right">
       <div class="search" v-if="searchView">
+        <button class="btn" @click="emitRefresh">
+          <i class="ri-refresh-line"></i>
+        </button>
         <input
           type="text"
           class="input"
@@ -57,9 +71,10 @@ onMounted(() => {
         />
       </div>
       <RouterLink
-        v-for="item in routes"
+        v-for="(item, index) in routes"
         :to="item.path"
         class="router-link"
+        :key="index"
         exact-active-class="active"
       >
         <i :class="item.icon"></i>
@@ -117,8 +132,10 @@ onMounted(() => {
 }
 
 .header-i > .right > .router-link {
-  width: 32px;
-  height: 32px;
+  min-width: 32px;
+  max-width: 32px;
+  min-height: 32px;
+  min-height: 32px;
 
   background-color: var(--white);
   color: var(--dark);
@@ -148,5 +165,11 @@ onMounted(() => {
 .header-i > .right > .router-link.active:hover {
   transition: all ease 0.2s;
   background-color: var(--dark2);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 </style>

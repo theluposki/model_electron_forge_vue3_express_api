@@ -6,7 +6,7 @@ export const getAllByLikeNameRepo = async (nome) => {
 
   try {
     const userExists = await db.all(
-      "SELECT nome, imagem, email, data_nascimento, autorizacao FROM users WHERE nome LIKE ?",
+      "SELECT id, nome, imagem, email, data_nascimento, autorizacao FROM users WHERE nome LIKE ?",
       [nome + '%']
     );
 

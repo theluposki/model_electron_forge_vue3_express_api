@@ -6,7 +6,7 @@ export const getOneByIDRepo = async (id) => {
 
   try {
     const userExists = await db.get(
-      "SELECT nome, imagem, email, data_nascimento, autorizacao FROM users WHERE id = ?",
+      "SELECT nome, imagem, email, data_nascimento, autorizacao, created_at, update_at  FROM users WHERE id = ?",
       [id]
     );
 

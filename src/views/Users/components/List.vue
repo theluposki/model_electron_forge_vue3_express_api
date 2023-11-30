@@ -1,16 +1,21 @@
 <script setup>
+import { Emitter } from "../../../utils/Emitter.js";
 import { colorAutorization } from "../../../utils/colorAutorization.js";
+import { useRouter } from "vue-router";
+
+const { push } = useRouter();
 
 defineProps({
   users: Array
 })
 
+const setLink = (id) => push(`/users/view-user/${id}`)
 
 </script>
 
 <template>
   <ul class="list">
-    <li class="item-list" v-for="item in users">
+    <li class="item-list" v-for="item in users" :key="item.id" @click="setLink(item.id)">
       <div class="left">
         <div class="image">
           <img :src="item.imagem" alt="imagem do usuário" loading="lazy">
