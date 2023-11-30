@@ -35,28 +35,28 @@ const nSubcategoria = ref("");
 const nMarca = ref("");
 
 const fetchAll = async () => {
-  try {
-    const requests = [
-      api.get("/api/unidade-de-medida"),
-      api.get("/api/categoria"),
-      api.get("/api/subcategoria"),
-      api.get("/api/marca"),
-      api.get("/api/fornecedor"),
-    ];
+  // try {
+  //   const requests = [
+  //     api.get("/api/unidade-de-medida"),
+  //     api.get("/api/categoria"),
+  //     api.get("/api/subcategoria"),
+  //     api.get("/api/marca"),
+  //     api.get("/api/fornecedor"),
+  //   ];
 
-    const [response1, response2, response3, response4, response5] =
-      await Promise.all(requests);
+  //   const [response1, response2, response3, response4, response5] =
+  //     await Promise.all(requests);
 
-    unidadeDeMedidas.value = response1.data;
-    categorias.value = response2.data;
-    subcategorias.value = response3.data;
-    marcas.value = response4.data;
-    fornecedores.value = response5.data;
-  } catch (error) {
-    if (error.response) {
-      console.error(error.response.data);
-    }
-  }
+  //   unidadeDeMedidas.value = response1.data;
+  //   categorias.value = response2.data;
+  //   subcategorias.value = response3.data;
+  //   marcas.value = response4.data;
+  //   fornecedores.value = response5.data;
+  // } catch (error) {
+  //   if (error.response) {
+  //     console.error(error.response.data);
+  //   }
+  // }
 };
 
 const addNew = async (field, path) => {

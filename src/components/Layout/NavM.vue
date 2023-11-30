@@ -29,6 +29,10 @@ const logout = () => {
         <i class="ri-dashboard-line"></i>
         Dashboard
       </RouterLink>
+      <RouterLink to="/users" class="nav-link" active-class="active">
+        <i class="ri-user-line"></i>
+        Usuários
+      </RouterLink>
       <RouterLink to="/product" class="nav-link" active-class="active">
         <i class="ri-product-hunt-line"></i>
         Produtos

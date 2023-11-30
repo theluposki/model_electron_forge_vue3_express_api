@@ -18,6 +18,20 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/users",
+    component: () => import("./views/Users/Users.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("./views/Users/ListUser.vue"),
+      },
+      {
+        path: "add-user",
+        component: () => import("./views/Users/addUser.vue"),
+      },
+    ],
+  },
   { path: "/about", component: () => import("./views/About.vue") },
 ];
 

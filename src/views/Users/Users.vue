@@ -4,19 +4,19 @@ import MainInside from "../../components/Layout/MainInside.vue";
 
 const routesHeaderInside = [
   {
-    path: "/product",
+    path: "/users",
     icon: "ri-list-unordered"
   },
   {
-    path: "/product/add-products",
-    icon: "ri-add-line"
+    path: "/users/add-user",
+    icon: "ri-user-add-line"
   }
 ]
 </script>
 
 <template>
   <div class="page">
-    <HeaderInside icon="ri-product-hunt-line" :routes="routesHeaderInside"/>
+    <HeaderInside icon="ri-user-line" :routes="routesHeaderInside" searchView searchPlaceholder="pesquisar"/>
     <MainInside />
   </div>
 </template>

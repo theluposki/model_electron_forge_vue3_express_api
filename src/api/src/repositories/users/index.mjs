@@ -5,6 +5,7 @@ import { updateRepo } from "./update.mjs";
 import { deleteRepo } from "./delete.mjs";
 import { updateAuthorization } from "./updateAuthorization.mjs";
 import { myRepo } from "./my.mjs";
+import { getAllByLikeNameRepo } from "./getAllByLikeNameRepo.mjs";
 
 export {
   addRepo,
@@ -13,5 +14,6 @@ export {
   updateRepo,
   deleteRepo,
   updateAuthorization,
-  myRepo
+  myRepo,
+  getAllByLikeNameRepo
 }

@@ -1,6 +1,6 @@
 {
-  "name": "guard_crypto",
-  "productName": "guard_crypto",
+  "name": "model_electron_forge_vue3_express_api",
+  "productName": "model_electron_forge_vue3_express_api",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
@@ -11,7 +11,7 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "keywords": [],
+  "keywords": ["sales", "management", "people"],
   "author": {
     "name": "theluposki",
     "email": "theluposki@gmail.com"

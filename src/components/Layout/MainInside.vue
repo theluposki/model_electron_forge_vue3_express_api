@@ -2,13 +2,13 @@
 import { RouterView } from "vue-router";
 </script>
 <template>
-  <main class="main-products">
+  <main class="mainInside">
     <RouterView />
   </main>
 </template>
 
 <style scoped>
-.main-products {
+.mainInside {
   flex: 1;
   background-color: antiquewhite;
 }

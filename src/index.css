@@ -43,12 +43,12 @@
   padding: 0;
   margin: 0;
 
-  /* -webkit-touch-callout: none;
+  -webkit-touch-callout: none;
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none;
   -webkit-user-drag: none;
-  user-select: none; */
+  user-select: none;
 
   outline: none;
 }
@@ -92,6 +92,24 @@ a {
   background-color: var(--primary) !important;
 }
 
+.yellow {
+  background-color: var(--alert) !important;
+  color: var(--dark2) !important;
+}
+
+.red {
+  background-color: var(--danger) !important;
+}
+
+.green {
+  background-color: var(--success) !important;
+  color: var(--dark4) !important;
+}
+
+.darkness {
+  background-color: var(--dark) !important;
+}
+
 .text-white {
   color: var(--white) !important;
 }
@@ -126,73 +144,6 @@ a {
 
   display: flex;
   flex-direction: column;
-}
-
-.header-i {
-  min-height: 50px;
-  max-height: 50px;
-  padding: 0 12px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header-i > .left {
-  flex: 1;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.header-i > .left > .name-router {
-  color: var(--dark5);
-  font-size: 1.4rem;
-  font-weight: 400;
-}
-
-.header-i > .right {
-  flex: 1;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
-}
-
-.header-i > .right > .router-link {
-  width: 32px;
-  height: 32px;
-
-  background-color: var(--white);
-  color: var(--dark);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-}
-
-.header-i > .right > .router-link:hover {
-  transition: all ease 0.2s;
-  background-color: var(--white2);
-}
-
-.header-i > .right > .router-link:active {
-  scale: 0.95;
-}
-
-.header-i > .right > .router-link.active {
-  background-color: var(--dark);
-  color: var(--white);
-}
-
-.header-i > .right > .router-link.active:hover {
-  transition: all ease 0.2s;
-  background-color: var(--dark2);
 }
 
 .page-i {
@@ -282,7 +233,8 @@ a {
 }
 
 .form-control > .input,
-.form-control > .form-group > .input {
+.form-control > .form-group > .input,
+.input {
   width: 100%;
   min-height: 32px;
   font-size: 1.4rem;
