@@ -1,6 +1,13 @@
 import axios from "axios";
 import config from "./config.js";
 import { showNotification } from "./components/Layout/NotificationService.js";
+import { useUserStore } from "./stores/user.js";
+
+let userStore;
+
+setTimeout(() => {
+  userStore = useUserStore();
+}, 1000)
 
 export const api = axios.create({
   baseURL: config.websocket.SERVER_URL, //`http://localhost:3327/api/v1`,
@@ -23,7 +30,8 @@ api.interceptors.response.use(
     }
 
     if (error.response && error.response.status === 401) {
-      showNotification(`Erro 401: ${error.response.data.error}`);
+      showNotification(`Erro 401: ${error.response.data.error}`, "error" );
+      userStore.removeUser();
     }
     return Promise.reject(error);
   }

@@ -4,7 +4,12 @@ import { Emitter } from "../../utils/Emitter.js";
 import { generatePassword } from "../../utils/generatePassword.js";
 import { api } from "../../axios.js";
 import { showNotification } from "../../components/Layout/NotificationService.js";
+import { useRoute } from "vue-router";
+import { formatDateYMD } from "../../utils/date.js";
 
+const { params } = useRoute();
+
+const userId = ref("");
 const showIcon = ref(true);
 const lock = ref(true);
 
@@ -30,6 +35,31 @@ const newUser = ref({
   uploadedImage: null,
 });
 
+const getUser = async () => {
+  if (!userId.value) return;
+
+  try {
+    const response = await api.get(`/users/${userId.value}`);
+
+    const result = response.data;
+
+    return {
+      nome: result.nome,
+      email: result.email,
+      dataNascimento: formatDateYMD(result.data_nascimento),
+      autorizacao: JSON.parse(result.autorizacao)[0],
+      senha: null,
+      uploadedImage: result.imagem,
+    };
+  } catch (error) {
+    if (error.response) {
+      const data = error.response.data;
+      console.log(data);
+      showNotification(error.response.data.error, "error");
+    }
+  }
+};
+
 const viewLock = () => {
   const passEl = document.getElementById("senha");
 
@@ -50,22 +80,16 @@ const generatePassLocal = () => {
 };
 
 onMounted(async () => {
-  Emitter.emit("route-name", "Adicionar novo usuário");
+  Emitter.emit("route-name", "Editar usuário");
   Emitter.emit("disable-search");
+  userId.value = params.id;
 
-  if (localStorage.getItem(keepAliveAddUser)) {
-    const userLocal = localStorage.getItem(keepAliveAddUser);
+  newUser.value = await getUser();
 
-    newUser.value = JSON.parse(userLocal);
-
-    if (newUser.value.uploadedImage) {
-      document.querySelector(
-        ".panel-img"
-      ).style.backgroundImage = `url(${newUser.value.uploadedImage})`;
-
-      showIcon.value = false;
-    }
-  }
+  document.querySelector(
+    ".panel-img"
+  ).style.backgroundImage = `url('${newUser.value.uploadedImage}')`;
+  showIcon.value = false;
 });
 
 let saveLocalTimeout;
@@ -143,11 +167,7 @@ const imageUpload = (event) => {
 
       const imageBase64 = canvas.toDataURL(imageType).split(",")[1];
 
-      updateUI(
-        imageType,
-        imageBase64,
-        ".panel-img"
-      );
+      updateUI(imageType, imageBase64, ".panel-img");
     };
   };
 
@@ -156,19 +176,19 @@ const imageUpload = (event) => {
   }
 };
 
-const registerUser = async () => {
+const updateUser = async () => {
   if (
     !newUser.value.nome ||
     !newUser.value.email ||
     !newUser.value.uploadedImage ||
     !newUser.value.dataNascimento ||
-    !newUser.value.senha ||
+    // !newUser.value.senha ||
     !newUser.value.autorizacao
   )
     return;
 
   try {
-    const response = await api.post(`/users`, {
+    const response = await api.put(`/users/${userId.value}`, {
       nome: newUser.value.nome,
       email: newUser.value.email,
       imagem: newUser.value.uploadedImage,
@@ -180,7 +200,6 @@ const registerUser = async () => {
     const { message } = response.data;
 
     showNotification(message, "success");
-    clear();
   } catch (error) {
     if (error.response) {
       const data = error.response.data;
@@ -209,7 +228,6 @@ const registerUser = async () => {
           />
         </label>
       </div>
-      {{ newUser }}
     </div>
 
     <div class="form-control">
@@ -293,8 +311,8 @@ const registerUser = async () => {
 
     <div class="form-group space-between mt-40 mb-40 mh-4">
       <button class="btn btn-large muted" @click="clear">Limpar</button>
-      <button class="btn btn-large primary" tabindex="6" @click="registerUser">
-        Adicionar
+      <button class="btn btn-large green" tabindex="6" @click="updateUser">
+        Atualizar
       </button>
     </div>
   </div>

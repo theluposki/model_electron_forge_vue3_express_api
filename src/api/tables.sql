@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS
         email TEXT NOT NULL UNIQUE,
         senha TEXT NOT NULL,
         data_nascimento INTEGER NOT NULL,
-        autorizacao TEXT DEFAULT '["basico"]',
+        autorizacao TEXT DEFAULT '["basic"]',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );

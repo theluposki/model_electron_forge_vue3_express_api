@@ -10,7 +10,7 @@ const routesHeaderInside = new Set([
   {
     path: "/users/add-user",
     icon: "ri-user-add-line",
-  }
+  },
 ]);
 </script>
 

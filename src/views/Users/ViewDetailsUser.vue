@@ -3,23 +3,23 @@ import { onMounted, ref } from "vue";
 import { Emitter } from "../../utils/Emitter.js";
 import { api } from "../../axios.js";
 import { showNotification } from "../../components/Layout/NotificationService.js";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { formatBirthDate, formatDateOnly } from "../../utils/date.js";
 
 const { params } = useRoute();
+const { back, push } = useRouter();
 
 const userId = ref("");
-const user = ref([])
+const user = ref([]);
 
 const getUser = async () => {
-  if(!userId.value) return;
+  if (!userId.value) return;
 
   try {
     const response = await api.get(`/users/${userId.value}`);
 
     const result = response.data;
-    console.log(result)
-    return result
+    return result;
   } catch (error) {
     if (error.response) {
       const data = error.response.data;
@@ -27,7 +27,31 @@ const getUser = async () => {
       showNotification(error.response.data.error, "error");
     }
   }
+};
+
+const editUser = () => {
+  if (!userId.value) return;
+
+  push(`/users/edit-user/${userId.value}`)
 }
+
+const deleteUser = async () => {
+  if (!userId.value) return;
+
+  try {
+    const response = await api.delete(`/users/${userId.value}`);
+
+    const { message } = response.data;
+    showNotification(message, "success");
+    back();
+  } catch (error) {
+    if (error.response) {
+      const data = error.response.data;
+      console.log(data);
+      showNotification(error.response.data.error, "error");
+    }
+  }
+};
 
 onMounted(async () => {
   Emitter.emit("route-name", "Detalhe do usuário");
@@ -43,7 +67,7 @@ onMounted(async () => {
   <div class="page-i page-details">
     <div class="top" v-if="user.nome">
       <div class="image">
-        <img :src="user.imagem" alt="imagem do usuário">
+        <img :src="user.imagem" alt="imagem do usuário" />
       </div>
       <div class="details">
         <span><b>Nome: </b>{{ user?.nome }}</span>
@@ -53,6 +77,16 @@ onMounted(async () => {
         <span><b>Criado em: </b>{{ formatDateOnly(user?.created_at) }}</span>
         <span><b>Modificado em: </b>{{ formatDateOnly(user?.update_at) }}</span>
       </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-large mt-20 yellow" @click="editUser">
+        <i class="ri-edit-2-line"></i>
+        Editar Usuário
+      </button>
+      <button class="btn btn-large mt-20 red" @click="deleteUser">
+        <i class="ri-delete-bin-5-line"></i>
+        Excluir Usuário
+      </button>
     </div>
   </div>
 </template>
@@ -96,5 +130,12 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
 }
 </style>

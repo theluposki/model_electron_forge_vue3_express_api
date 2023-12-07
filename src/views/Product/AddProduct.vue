@@ -209,6 +209,7 @@ const registerProduct = () => {
 
 <template>
   <div class="page-i addProduct">
+    
     <div class="form-group">
       <div class="form-control">
         <div class="form-control">

@@ -290,6 +290,10 @@ textarea {
   border-radius: 4px;
 }
 
+.select > option:nth-child(1) {
+  color: var(--dark2);
+}
+
 .link {
   min-width: fit-content;
   min-height: 32px;
@@ -304,13 +308,21 @@ textarea {
   color: var(--dark5);
 }
 
+.mh-4 {
+  margin: 0 4px !important;
+}
+
 .mt-20 {
-  margin-top: 20px;
+  margin-top: 20px !important;
 }
 
 .mt-40 {
-  margin-top: 40px;
+  margin-top: 40px !important;
+}
+
+.mb-40 {
+  margin-bottom: 40px !important;
 }
 .mv-right {
-  align-self: flex-end;
+  align-self: flex-end !important;
 }
