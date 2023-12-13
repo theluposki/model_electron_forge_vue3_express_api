@@ -14,3 +14,14 @@ CREATE TABLE IF NOT EXISTS
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+
+CREATE TABLE IF NOT EXISTS
+    permissions (
+        id TEXT PRIMARY KEY,
+        permission TEXT UNIQUE NOT NULL,
+        bgColor TEXT, 
+        bgColorFront TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );

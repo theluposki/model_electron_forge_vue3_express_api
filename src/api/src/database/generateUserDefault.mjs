@@ -2,6 +2,18 @@ import { databasePromise } from "./index.mjs";
 import { imageDefault } from "./imageUserDefault.mjs";
 import { hashPassword, logger } from "../utils/index.mjs";
 
+
+function fn18YearsInMilliseconds() {
+  const today = new Date();
+  const birthdate = new Date(today);
+
+  birthdate.setFullYear(birthdate.getFullYear() - 18);
+
+  return birthdate.getTime();
+}
+
+
+
 export const checkAndCreateDefaultUser = async () => {
   const db = await databasePromise;
 
@@ -26,12 +38,12 @@ export const checkAndCreateDefaultUser = async () => {
           ?,
           'janedoe@mail.com',
           ?,
-          '1113264000000',
+          ?,
           '["administrator"]'
         );
       `;
 
-      await db.run(createDefaultUserQuery, [imageDefault, hash]);
+      await db.run(createDefaultUserQuery, [imageDefault, hash, fn18YearsInMilliseconds() ]);
       logger.log(
         "checkAndCreateDefaultUser",
         "Standard user created successfully!"

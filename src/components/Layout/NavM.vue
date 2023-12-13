@@ -33,6 +33,10 @@ const logout = () => {
         <i class="ri-user-line"></i>
         Usuários
       </RouterLink>
+      <RouterLink to="/permissions" class="nav-link" active-class="active">
+        <i class="ri-folder-shield-2-line"></i>
+        Permições
+      </RouterLink>
       <RouterLink to="/product" class="nav-link" active-class="active">
         <i class="ri-product-hunt-line"></i>
         Produtos

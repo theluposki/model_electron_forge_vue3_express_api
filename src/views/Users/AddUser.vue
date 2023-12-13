@@ -209,7 +209,6 @@ const registerUser = async () => {
           />
         </label>
       </div>
-      {{ newUser }}
     </div>
 
     <div class="form-control">

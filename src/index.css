@@ -162,6 +162,8 @@ a {
   border-radius: 0px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
+  padding: 0 6px;
+
   display: flex;
   flex-direction: column;
 }
@@ -261,6 +263,14 @@ textarea:focus,
   background-color: var(--silver);
 }
 
+input[type="checkbox"] {
+  min-width: 20px;
+  max-width: 20px;
+  min-height: 20px;
+  max-height: 20px;
+  accent-color: var(--primary);
+}
+
 textarea {
   width: 100%;
   min-height: 60px;
@@ -308,6 +318,18 @@ textarea {
   color: var(--dark5);
 }
 
+.ph-6 {
+  padding: 0 6px;
+}
+
+.ph-12 {
+  padding: 0 12px;
+}
+
+.ph-24 {
+  padding: 0 24px;
+}
+
 .mh-4 {
   margin: 0 4px !important;
 }
@@ -326,3 +348,16 @@ textarea {
 .mv-right {
   align-self: flex-end !important;
 }
+
+.authorization {
+  background-color: var(--dark5);
+  border-radius: 12px;
+  padding: 0 12px;
+  font-size: 1.4rem;
+  font-weight: normal;
+  color: var(--white2);
+  text-shadow: 0 0 0 var(--dark);
+
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+

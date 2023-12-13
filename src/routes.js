@@ -40,6 +40,28 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/permissions",
+    component: () => import("./views/Permissions/Permissions.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("./views/Permissions/ListPermissions.vue"),
+      },
+      {
+        path: "add-permission",
+        component: () => import("./views/Permissions/AddPermission.vue"),
+      },
+      {
+        path: "edit-permission/:id",
+        component: () => import("./views/Permissions/EditPermission.vue"),
+      },
+      {
+        path: "view-permission/:id",
+        component: () => import("./views/Permissions/ViewDetailsPermission.vue"),
+      },
+    ],
+  },
   { path: "/about", component: () => import("./views/About.vue") },
 ];
 

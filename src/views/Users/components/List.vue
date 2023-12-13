@@ -88,15 +88,5 @@ const setLink = (id) => push(`/users/view-user/${id}`)
   gap: 6px;
 }
 
-.authorization {
-  background-color: var(--dark5);
-  border-radius: 12px;
-  padding: 0 12px;
-  font-size: 1.4rem;
-  font-weight: normal;
-  color: var(--white2);
-  text-shadow: 0 0 0 var(--dark);
 
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-}
 </style>
