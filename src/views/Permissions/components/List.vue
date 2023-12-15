@@ -15,7 +15,7 @@ const setLink = (id) => push(`/permissions/view-permission/${id}`)
   <ul class="list">
     <li class="item-list" v-for="item in permissions" :key="item.id" @click="setLink(item.id)">
       <div class="left">
-        <div class="authorization" :style="`background-color: ${item.bgColor}; color: ${item.bgColorFront}; `">{{ item.permission }}</div>  
+        <div class="authorization" :style="`background-color: ${item.bgColor}; color: ${item.colorFont}; `">{{ item.permission }}</div>  
       </div>
 
       <div class="right">

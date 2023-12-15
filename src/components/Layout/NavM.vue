@@ -2,7 +2,8 @@
 import { RouterLink } from "vue-router";
 import { useUserStore } from "../../stores/user.js";
 import { showNotification } from "../Layout/NotificationService.js";
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { checkAuthorization } from "../../utils/checkAuthorization.js";
 
 const userStore = useUserStore();
 
@@ -12,15 +13,33 @@ const logout = () => {
   userStore.removeUser();
   showNotification("Sessão encerrada com sucesso.", "alert")
 }
+
+const modules = ref({
+  "usuários": false,
+  "permições": false,
+  "produtos": false,
+})
+
+const fnCheckAuthorization = async (module) => {
+  const result = await checkAuthorization(user.value.permission, module) // : Boolean
+
+  modules.value[module] = result
+}
+
+onMounted(async () => {
+  for (const module in modules.value) {
+        await fnCheckAuthorization(module);
+  }
+})
 </script>
 
 <template>
   <div class="NavM">
     <div class="user-connected">
-      <img :src="user.imagem" alt="image user">
+      <img :src="user.image" alt="image user">
       <div class="user-info">
-        <span class="name">{{ user.nome }}</span>
-        <span class="permission">{{ JSON.parse(user.autorizacao)[0] }}</span>
+        <span class="name">{{ user.name }}</span>
+        <span class="permission">{{ user.permission }}</span>
       </div>
     </div>
 
@@ -29,15 +48,15 @@ const logout = () => {
         <i class="ri-dashboard-line"></i>
         Dashboard
       </RouterLink>
-      <RouterLink to="/users" class="nav-link" active-class="active">
+      <RouterLink v-if="modules['usuários']" to="/users" class="nav-link" active-class="active">
         <i class="ri-user-line"></i>
         Usuários
       </RouterLink>
-      <RouterLink to="/permissions" class="nav-link" active-class="active">
+      <RouterLink v-if="modules['permições']" to="/permissions" class="nav-link" active-class="active">
         <i class="ri-folder-shield-2-line"></i>
         Permições
       </RouterLink>
-      <RouterLink to="/product" class="nav-link" active-class="active">
+      <RouterLink v-if="modules['produtos']" to="/product" class="nav-link" active-class="active">
         <i class="ri-product-hunt-line"></i>
         Produtos
       </RouterLink>

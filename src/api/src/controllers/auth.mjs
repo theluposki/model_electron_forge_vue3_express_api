@@ -4,8 +4,8 @@ import { authRepo } from "../repositories/auth.mjs";
 export const auth = async (req, res) => {
   const body = req.body;
 
-  if (validation.isRequired(body, ["email", "senha"]))
-    return res.status(400).json({ error: validation.isRequired(body, ["email", "senha"]) });
+  if (validation.isRequired(body, ["email", "password"]))
+    return res.status(400).json({ error: validation.isRequired(body, ["email", "password"]) });
 
   try {
     const result = await authRepo(body);

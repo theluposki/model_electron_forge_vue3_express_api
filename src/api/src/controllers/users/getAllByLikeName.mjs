@@ -3,15 +3,14 @@ import { getAllByLikeNameRepo } from "../../repositories/users/index.mjs";
 
 
 export const getAllByLikeName = async (req,res) => {
-  const nome = req.params.nome
+  const name = req.params.name
 
-  console.log(nome)
   try {
     
-    if (validation.isRequired({ nome }, ["nome"]))
-    return res.status(400).json({ error: validation.isRequired({ nome }, ["nome"]) });
+    if (validation.isRequired({ name }, ["name"]))
+    return res.status(400).json({ error: validation.isRequired({ name }, ["name"]) });
   
-    const result = await getAllByLikeNameRepo(nome);
+    const result = await getAllByLikeNameRepo(name);
 
     if(result.error) {
       res.status(400).json({ error: result.error})

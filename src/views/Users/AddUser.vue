@@ -1,37 +1,31 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import { Emitter } from "../../utils/Emitter.js";
 import { generatePassword } from "../../utils/generatePassword.js";
 import { api } from "../../axios.js";
 import { showNotification } from "../../components/Layout/NotificationService.js";
+
+const { push } = useRouter();
 
 const showIcon = ref(true);
 const lock = ref(true);
 
 const keepAliveAddUser = "keepAliveAddUser";
 
-const autorizacoes = ref([
-  {
-    id: 1,
-    nome: "basic",
-  },
-  {
-    id: 2,
-    nome: "administrator",
-  },
-]);
+const permissions = ref([]);
 
 const newUser = ref({
-  nome: null,
+  name: null,
   email: null,
-  dataNascimento: null,
-  autorizacao: "",
-  senha: null,
+  birthDate: null,
+  permission: "",
+  password: null,
   uploadedImage: null,
 });
 
 const viewLock = () => {
-  const passEl = document.getElementById("senha");
+  const passEl = document.getElementById("password");
 
   if (passEl.type === "password") {
     passEl.type = "text";
@@ -43,15 +37,40 @@ const viewLock = () => {
 };
 
 const generatePassLocal = () => {
-  const passEl = document.getElementById("senha");
+  const passEl = document.getElementById("password");
   lock.value = false;
   passEl.type = "text";
-  newUser.value.senha = generatePassword();
+  newUser.value.password = generatePassword();
 };
+
+
+const getAllPermissions = async () => {
+  try {
+    const response = await api.get(`/permissions`);
+
+    const result = response.data;
+    console.log(result)
+    if(result.error) {
+      showNotification(result.error, "error");
+      return 
+    }
+    return result
+  } catch (error) {
+    if (error.response) {
+      const data = error.response.data;
+      console.error(data);
+
+      console.log("****** data: ", error.response.data.error);
+      showNotification(error.response.data.error, "error");
+    }
+  }
+}
 
 onMounted(async () => {
   Emitter.emit("route-name", "Adicionar novo usuário");
   Emitter.emit("disable-search");
+
+  permissions.value = await getAllPermissions();
 
   if (localStorage.getItem(keepAliveAddUser)) {
     const userLocal = localStorage.getItem(keepAliveAddUser);
@@ -79,11 +98,11 @@ const keepAlive = () => {
 
 const clear = () => {
   newUser.value = {
-    nome: null,
+    name: null,
     email: null,
-    dataNascimento: null,
-    autorizacao: "",
-    senha: null,
+    birthDate: null,
+    permission: "",
+    password: null,
     uploadedImage: null,
   };
 
@@ -158,29 +177,30 @@ const imageUpload = (event) => {
 
 const registerUser = async () => {
   if (
-    !newUser.value.nome ||
+    !newUser.value.name ||
     !newUser.value.email ||
     !newUser.value.uploadedImage ||
-    !newUser.value.dataNascimento ||
-    !newUser.value.senha ||
-    !newUser.value.autorizacao
+    !newUser.value.birthDate ||
+    !newUser.value.password ||
+    !newUser.value.permission
   )
     return;
 
   try {
     const response = await api.post(`/users`, {
-      nome: newUser.value.nome,
+      name: newUser.value.name,
       email: newUser.value.email,
-      imagem: newUser.value.uploadedImage,
-      senha: newUser.value.senha,
-      data_nascimento: newUser.value.dataNascimento,
-      autorizacao: [newUser.value.autorizacao],
+      image: newUser.value.uploadedImage,
+      password: newUser.value.password,
+      birthDate: newUser.value.birthDate,
+      permission: newUser.value.permission,
     });
 
     const { message } = response.data;
 
     showNotification(message, "success");
     clear();
+    push("/users");
   } catch (error) {
     if (error.response) {
       const data = error.response.data;
@@ -212,14 +232,14 @@ const registerUser = async () => {
     </div>
 
     <div class="form-control">
-      <label for="nome"><sup>*</sup>Nome:</label>
+      <label for="name"><sup>*</sup>Nome:</label>
       <input
         type="text"
         tabindex="1"
         @keypress="keepAlive"
-        id="nome"
+        id="name"
         class="input"
-        v-model="newUser.nome"
+        v-model="newUser.name"
         placeholder="digite o nome"
       />
     </div>
@@ -238,54 +258,54 @@ const registerUser = async () => {
     </div>
 
     <div class="form-control">
-      <label for="dataNascimento"><sup>*</sup>Data de nascimento:</label>
+      <label for="birthDate"><sup>*</sup>Data de nascimento:</label>
       <input
         type="date"
         tabindex="3"
         @keypress="keepAlive"
-        id="dataNascimento"
+        id="birthDate"
         class="input"
-        v-model="newUser.dataNascimento"
+        v-model="newUser.birthDate"
       />
     </div>
 
     <div class="form-control">
-      <label for="senha"><sup>*</sup>Senha:</label>
+      <label for="password"><sup>*</sup>Senha:</label>
       <div class="form-group">
         <input
           type="password"
           tabindex="4"
           @keypress="keepAlive"
-          id="senha"
+          id="password"
           class="input"
           placeholder="digite a senha"
-          v-model="newUser.senha"
+          v-model="newUser.password"
         />
         <button class="btn" @click="viewLock">
           <i class="ri-lock-password-line" v-if="lock"></i>
           <i class="ri-lock-unlock-line" v-else></i>
         </button>
         <button class="btn btn-large" @click="generatePassLocal">
-          <i class="ri-key-line"></i> Gerar senha
+          <i class="ri-key-line"></i> Gerar password
         </button>
       </div>
     </div>
 
     <div class="form-control">
-      <label for="autorizacao"
-        ><sup>*</sup>Autorização: {{ newUser.autorizacao }}</label
+      <label for="permission"
+        ><sup>*</sup>Autorização: {{ newUser.permission }}</label
       >
       <select
         class="select"
-        name="autorizacao"
-        v-model="newUser.autorizacao"
-        id="autorizacao"
+        name="permission"
+        v-model="newUser.permission"
+        id="permission"
         tabindex="5"
         @change="keepAlive"
       >
         <option value="" disabled>Selecione a autorização</option>
-        <option v-for="item in autorizacoes" :key="item.id" :value="item.nome">
-          {{ item.nome }}
+        <option v-for="item in permissions" :key="item.id" :value="item.id">
+          {{ item.permission }}
         </option>
       </select>
     </div>

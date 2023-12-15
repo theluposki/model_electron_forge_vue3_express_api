@@ -4,6 +4,7 @@ import { getOneByID } from "./getOneByID.mjs";
 import { update } from "./update.mjs";
 import { deleteC } from "./delete.mjs";
 import { getAllByLikeName } from "./getAllByLikeName.mjs"
+import { getOneByPermission } from "./getOneByPermission.mjs";
 
 export {
   add,
@@ -11,5 +12,6 @@ export {
   getOneByID,
   update,
   deleteC,
-  getAllByLikeName
+  getAllByLikeName,
+  getOneByPermission
 }

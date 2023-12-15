@@ -29,7 +29,7 @@ const login = async () => {
   try {
     const response = await api.post(`/auth`, {
       email: email.value,
-      senha: password.value,
+      password: password.value,
     });
 
     const { message } = response.data;

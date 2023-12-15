@@ -19,8 +19,10 @@ export const checkAndCreateDefaultUser = async () => {
 
   try {
     const checkAdministratorQuery = `
-      SELECT * FROM users
-      WHERE autorizacao LIKE '%administrator%';
+      SELECT u.*
+      FROM users u
+      JOIN permissions p ON u.permission = p.id
+      WHERE p.permission = 'administrador';
     `;
 
     const rows = await db.all(checkAdministratorQuery);
@@ -31,7 +33,7 @@ export const checkAndCreateDefaultUser = async () => {
 
     if (rows.length === 0) {
       const createDefaultUserQuery = `
-        INSERT INTO users (id, nome, imagem, email, senha, data_nascimento, autorizacao)
+        INSERT INTO users (id, name, image, email, password, birthDate, permission)
         VALUES (
           'a69f62cf-3ee4-4342-9ec3-8c98fb4da830',
           'Jane Doe',
@@ -39,7 +41,7 @@ export const checkAndCreateDefaultUser = async () => {
           'janedoe@mail.com',
           ?,
           ?,
-          '["administrator"]'
+          '1ccb3a4b-e430-4bb2-b72d-82f5e9436c59'
         );
       `;
 
@@ -51,7 +53,7 @@ export const checkAndCreateDefaultUser = async () => {
     } else {
       logger.log(
         "checkAndCreateDefaultUser",
-        'There is already a user with "administrator" authorization.'
+        'There is already a user with "administrador" authorization.'
       );
     }
   } catch (error) {

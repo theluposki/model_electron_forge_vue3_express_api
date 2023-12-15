@@ -5,9 +5,8 @@ export const update = async (req,res) => {
   const id = req.params.id;
   const body = req.body;
   try {
-    
-    if (validation.isRequired({ id, ...body }, ["id","nome", "imagem", "email"]))
-    return res.status(400).json({ error: validation.isRequired({ id, ...body }, ["id","nome", "imagem", "email"]) });
+    if (validation.isRequired({ id, ...body }, ["id","name", "image", "email", "password", "birthDate", "permission"]))
+    return res.status(400).json({ error: validation.isRequired({ id, ...body }, ["id","name", "image", "email", "password", "birthDate", "permission"]) });
   
     const result = await updateRepo(id, body);
 

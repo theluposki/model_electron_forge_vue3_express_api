@@ -15,6 +15,8 @@
   --white: #fff;
   --white2: #f7f7f7;
   --white3: #eee;
+  --white4: #e6e6e6;
+  --white5: #ddd;
 
   --silver: #d5d5d5;
   --silver2: #c3c3c3;
@@ -83,6 +85,23 @@ body {
   overflow: hidden;
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--white2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--silver2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark);
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -124,6 +143,15 @@ a {
 
 .pading-h-24 {
   padding: 0 24px;
+}
+
+.text-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--dark2);
+  padding: 24px;
 }
 
 .page {
@@ -198,7 +226,8 @@ a {
   box-shadow: inset 0 0 6px var(--white);
 }
 
-.form-group > .btn, .btn {
+.form-group > .btn,
+.btn {
   background-color: var(--dark);
   color: var(--white);
   border: none;
@@ -211,11 +240,13 @@ a {
   cursor: pointer;
 }
 
-.form-group > .btn:hover, .btn:hover  {
+.form-group > .btn:hover,
+.btn:hover {
   transition: all ease 0.2s;
   background-color: var(--dark2);
 }
-.form-group > .btn:active, .btn:active  {
+.form-group > .btn:active,
+.btn:active {
   scale: 0.95;
 }
 
@@ -353,11 +384,18 @@ textarea {
   background-color: var(--dark5);
   border-radius: 12px;
   padding: 0 12px;
-  font-size: 1.4rem;
-  font-weight: normal;
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 1.1px;
   color: var(--white2);
   text-shadow: 0 0 0 var(--dark);
 
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-}
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  max-width: fit-content;
+  gap: 10px;
+}

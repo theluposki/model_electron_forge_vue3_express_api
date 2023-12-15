@@ -1,6 +1,4 @@
 <script setup>
-import { Emitter } from "../../../utils/Emitter.js";
-import { colorAutorization } from "../../../utils/colorAutorization.js";
 import { useRouter } from "vue-router";
 
 const { push } = useRouter();
@@ -18,13 +16,13 @@ const setLink = (id) => push(`/users/view-user/${id}`)
     <li class="item-list" v-for="item in users" :key="item.id" @click="setLink(item.id)">
       <div class="left">
         <div class="image">
-          <img :src="item.imagem" alt="imagem do usuário" loading="lazy">
+          <img :src="item.image" alt="imagem do usuário" loading="lazy">
         </div>
-        <div>{{ item.nome }}</div>  
+        <div>{{ item.name }}</div>  
       </div>
 
       <div class="right">
-        <div :class="colorAutorization(JSON.parse(item.autorizacao)[0])">{{ JSON.parse(item.autorizacao)[0] }}</div>
+        <div class="authorization" :style="`background-color: ${ item.bgColor }; color: ${item.colorFont}; `">{{ item.permission }}</div>
       </div>
     </li>
   </ul>

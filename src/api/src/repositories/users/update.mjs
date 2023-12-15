@@ -1,8 +1,8 @@
 import { databasePromise } from "../../database/index.mjs";
-import { logger } from "../../utils/index.mjs";
+import { logger, hashPassword } from "../../utils/index.mjs";
 
 export const updateRepo = async (id, body) => {
-  const { nome, imagem, email } = body;
+  const { name, image, email, password, birthDate, permission } = body;
 
   const db = await databasePromise;
 
@@ -11,12 +11,23 @@ export const updateRepo = async (id, body) => {
 
     if (!userExists) return { error: "User not found." };
 
+    const birthDateInMilliseconds = new Date(birthDate).getTime();
+    const hashPasswordText = await hashPassword.hash(password);
+
     const query = `UPDATE users
-    SET nome = ?, imagem = ?, email = ?
+    SET name = ?, image = ?, email = ?, password = ?, birthDate = ?, permission = ? 
     WHERE id = ?
     `;
 
-    const row = await db.run(query, [nome, imagem, email, id]);
+    const row = await db.run(query, [
+      name,
+      image,
+      email,
+      hashPasswordText,
+      birthDateInMilliseconds,
+      permission,
+      id
+    ]);
 
     if (row.changes === 1) {
       return { message: "Atualizado com sucesso!" };

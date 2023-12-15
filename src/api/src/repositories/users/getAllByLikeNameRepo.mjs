@@ -1,13 +1,18 @@
 import { databasePromise } from "../../database/index.mjs";
 import { logger } from "../../utils/index.mjs";
 
-export const getAllByLikeNameRepo = async (nome) => {
+export const getAllByLikeNameRepo = async (name) => {
   const db = await databasePromise;
 
   try {
     const userExists = await db.all(
-      "SELECT id, nome, imagem, email, data_nascimento, autorizacao FROM users WHERE nome LIKE ?",
-      [nome + '%']
+      ` 
+        SELECT u.id, u.name, u.email, u.image, u.birthDate, p.permission, p.bgColor, p.colorFont
+        FROM users u
+        JOIN permissions p ON u.permission = p.id
+        WHERE u.name LIKE ?;
+      `,
+      [name + '%']
     );
 
     if (!userExists) return [];

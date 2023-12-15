@@ -6,7 +6,11 @@ export const getAllRepo = async () => {
 
   try {
     const query =
-      "SELECT id, nome, email, imagem, data_nascimento, autorizacao FROM users";
+      `
+      SELECT u.id, u.name, u.email, u.image, u.birthDate, p.permission, p.bgColor, p.colorFont
+      FROM users u
+      JOIN permissions p ON u.permission = p.id;
+      `;
 
     const users = await db.all(query);
 

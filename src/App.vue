@@ -14,6 +14,6 @@ const user = computed(() => userStore.user);
 
 <template>
   <NotificationList :notifications="notifications" />
-  <MainAuth v-if="!user.nome"/>
-  <MainM v-if="user.nome"/>
+  <MainAuth v-if="!user.name"/>
+  <MainM v-if="user.name"/>
 </template>

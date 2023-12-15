@@ -6,8 +6,8 @@ export const update = async (req,res) => {
   const body = req.body;
   try {
     
-    if (validation.isRequired({ id, ...body }, ["id","permission", "bgColor", "bgColorFront"]))
-    return res.status(400).json({ error: validation.isRequired({ id, ...body }, ["id","permission", "bgColor", "bgColorFront"]) });
+    if (validation.isRequired({ id, ...body }, ["permission", "bgColor", "colorFont", "authorizations", "description"]))
+    return res.status(400).json({ error: validation.isRequired({ id, ...body }, ["permission", "bgColor", "colorFont", "authorizations", "description"]) });
   
     const result = await updateRepo(id, body);
 

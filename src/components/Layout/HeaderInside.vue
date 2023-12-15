@@ -59,7 +59,7 @@ onMounted(() => {
 
     <div class="right">
       <div class="search" v-if="searchView">
-        <button class="btn" @click="emitRefresh">
+        <button class="router-link" @click="emitRefresh">
           <i class="ri-refresh-line"></i>
         </button>
         <input
@@ -131,11 +131,12 @@ onMounted(() => {
   gap: 6px;
 }
 
-.header-i > .right > .router-link {
+.router-link {
+  border: solid 1px transparent;
   min-width: 32px;
   max-width: 32px;
   min-height: 32px;
-  min-height: 32px;
+  max-height: 32px;
 
   background-color: var(--white);
   color: var(--dark);
@@ -146,23 +147,24 @@ onMounted(() => {
 
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  cursor: pointer;
 }
 
-.header-i > .right > .router-link:hover {
+.router-link:hover {
   transition: all ease 0.2s;
   background-color: var(--white2);
 }
 
-.header-i > .right > .router-link:active {
+.router-link:active {
   scale: 0.95;
 }
 
-.header-i > .right > .router-link.active {
+.router-link.active {
   background-color: var(--dark);
   color: var(--white);
 }
 
-.header-i > .right > .router-link.active:hover {
+.router-link.active:hover {
   transition: all ease 0.2s;
   background-color: var(--dark2);
 }

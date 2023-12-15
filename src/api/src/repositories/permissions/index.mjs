@@ -4,6 +4,7 @@ import { getOneByIDRepo } from "./getOneByID.mjs";
 import { updateRepo } from "./update.mjs";
 import { deletePermissionsRepo } from "./delete.mjs";
 import { getAllByLikeNameRepo } from "./getAllByLikeNameRepo.mjs";
+import { getOneByPermissionRepo } from "./getOneByPermissionRepo.mjs";
 
 export {
   AddPermissionRepo,
@@ -11,5 +12,6 @@ export {
   getOneByIDRepo,
   updateRepo,
   deletePermissionsRepo,
-  getAllByLikeNameRepo
+  getAllByLikeNameRepo,
+  getOneByPermissionRepo
 }

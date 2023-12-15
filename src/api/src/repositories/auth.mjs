@@ -2,13 +2,13 @@ import { databasePromise } from "../database/index.mjs";
 import { logger, hashPassword, jwt } from "../utils/index.mjs";
 
 export const authRepo = async (body) => {
-  const { email, senha } = body;
+  const { email, password } = body;
 
   const db = await databasePromise;
 
   try {
     const userExists = await db.get(
-      "SELECT id, email, senha FROM users WHERE email = ?",
+      "SELECT id, email, password FROM users WHERE email = ?",
       [email]
     );
 
@@ -16,8 +16,8 @@ export const authRepo = async (body) => {
       return { error: "Usuário ou Senha invalidos." };
     }
 
-    if (!(await hashPassword.compare(senha, userExists.senha))) {
-      return { error: "Usuário ou Senha invalidos. senha" };
+    if (!(await hashPassword.compare(password, userExists.password))) {
+      return { error: "Usuário ou Senha invalidos." };
     }
 
     const token = jwt.sign(userExists.id);

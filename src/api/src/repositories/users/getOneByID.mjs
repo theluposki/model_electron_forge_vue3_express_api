@@ -6,7 +6,21 @@ export const getOneByIDRepo = async (id) => {
 
   try {
     const userExists = await db.get(
-      "SELECT nome, imagem, email, data_nascimento, autorizacao, created_at, update_at  FROM users WHERE id = ?",
+      `
+        SELECT 
+        u.name, 
+        u.image, 
+        u.email, 
+        u.birthDate, 
+        p.permission,
+        u.created_at, 
+        u.update_at,
+        p.bgColor, 
+        p.colorFont 
+        FROM users u
+        JOIN permissions p ON u.permission = p.id
+        WHERE u.id = ?;
+      `,
       [id]
     );
 

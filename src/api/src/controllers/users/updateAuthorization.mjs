@@ -6,9 +6,8 @@ export const updateAuthorizationC = async (req,res) => {
   const body = req.body;
 
   try {
-    
-    if (validation.isRequired({ id, ...body }, ["id","autorizacao"]))
-    return res.status(400).json({ error: validation.isRequired({ id, ...body }, ["id","autorizacao"]) });
+    if (validation.isRequired({ id, ...body }, ["id","permission"]))
+    return res.status(400).json({ error: validation.isRequired({ id, ...body }, ["id","permission"]) });
   
     const result = await updateAuthorization(id, body);
 

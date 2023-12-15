@@ -65,15 +65,15 @@ onMounted(async () => {
 </script>
 <template>
   <div class="page-i page-details">
-    <div class="top" v-if="user.nome">
+    <div class="top" v-if="user.name">
       <div class="image">
-        <img :src="user.imagem" alt="imagem do usuário" />
+        <img :src="user.image" alt="imagem do usuário" />
       </div>
       <div class="details">
-        <span><b>Nome: </b>{{ user?.nome }}</span>
+        <span><b>Nome: </b>{{ user?.name }}</span>
         <span><b>E-mail: </b>{{ user?.email }}</span>
-        <span><b>Idade: </b>{{ formatBirthDate(user?.data_nascimento) }}</span>
-        <span><b>Autorização: </b>{{ JSON.parse(user?.autorizacao)[0] }}</span>
+        <span><b>Idade: </b>{{ formatBirthDate(user?.birthDate) }}</span>
+        <span><b>Autorização: </b>{{ user?.permission }}</span>
         <span><b>Criado em: </b>{{ formatDateOnly(user?.created_at) }}</span>
         <span><b>Modificado em: </b>{{ formatDateOnly(user?.update_at) }}</span>
       </div>

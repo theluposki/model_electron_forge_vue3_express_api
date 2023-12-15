@@ -4,8 +4,8 @@ import { addRepo } from "../../repositories/users/index.mjs";
 export const add = async (req, res) => {
   const body = req.body;
 
-  if (validation.isRequired(body, ["nome", "imagem", "email", "senha", "data_nascimento", "autorizacao"]))
-    return res.status(400).json({ error: validation.isRequired(body, ["nome", "imagem", "email", "senha", "data_nascimento", "autorizacao"]) });
+  if (validation.isRequired(body, ["name", "image", "email", "password", "birthDate", "permission"]))
+    return res.status(400).json({ error: validation.isRequired(body, ["name", "image", "email", "password", "birthDate", "permission"]) });
 
   try {
     const result = await addRepo(body);

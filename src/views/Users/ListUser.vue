@@ -25,11 +25,18 @@ const getUsers = async () => {
     const response = await api.get(`/users`);
 
     const result = response.data;
+
+    if(result.error) {
+      showNotification(result.error, "error");
+      return 
+    }
     return result
   } catch (error) {
     if (error.response) {
       const data = error.response.data;
       console.error(data);
+
+      console.log("****** data: ", error.response.data.error);
       showNotification(error.response.data.error, "error");
     }
   }

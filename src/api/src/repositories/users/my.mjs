@@ -6,7 +6,12 @@ export const myRepo = async (id) => {
 
   try {
     const userExists = await db.get(
-      "SELECT nome, imagem, email, data_nascimento, autorizacao FROM users WHERE id = ?",
+      `
+        SELECT u.name, u.image, u.email, u.birthDate, p.permission
+        FROM users u
+        JOIN permissions p ON u.permission = p.id
+        WHERE u.id = ?;
+      `,
       [id]
     );
 

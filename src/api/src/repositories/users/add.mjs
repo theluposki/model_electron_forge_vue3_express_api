@@ -5,17 +5,17 @@ import { logger, hashPassword, validation } from "../../utils/index.mjs";
 export const addRepo = async (body) => {
   const id = randomUUID();
 
-  const { nome, imagem, email, senha, data_nascimento, autorizacao } = body;
+  const { name, image, email, password, birthDate, permission } = body;
 
-  if (validation.isValidAge(data_nascimento))
-    return { error: validation.isValidAge(data_nascimento) };
-  if (validation.isEmail(body.email))
+  if (validation.isValidAge(birthDate))
+    return { error: validation.isValidAge(birthDate) };
+  if (validation.isEmail(email))
     return { error: validation.isEmail(email) };
-  if (validation.isValidPassword(body.senha))
-    return { error: validation.isValidPassword(senha) };
+  if (validation.isValidPassword(password))
+    return { error: validation.isValidPassword(password) };
 
-  const birthDate = new Date(data_nascimento).getTime();
-  const hashPasswordText = await hashPassword.hash(senha);
+  const birthDateInMilliseconds = new Date(birthDate).getTime();
+  const hashPasswordText = await hashPassword.hash(password);
 
   const db = await databasePromise;
 
@@ -25,23 +25,32 @@ export const addRepo = async (body) => {
       [email]
     );
 
+    const permissionExists = await db.get(
+      "SELECT id FROM permissions WHERE id = ?",
+      [permission]
+    );
+
     if (userAlreadyExists) {
       return { error: "User already exists." };
     }
 
+    if (!permissionExists) {
+      return { error: "this permission does not exist." };
+    }
+
     const query = `
-    INSERT INTO users (id, nome, imagem, email, senha, data_nascimento, autorizacao)
+    INSERT INTO users (id, name, image, email, password, birthDate, permission)
     VALUES (?, ?, ?, ?, ?, ?, ?);
     `;
 
     const row = await db.run(query, [
       id,
-      nome,
-      imagem,
+      name,
+      image,
       email,
       hashPasswordText,
-      birthDate,
-      JSON.stringify(autorizacao),
+      birthDateInMilliseconds,
+      permission,
     ]);
 
     if (row.changes === 1) {

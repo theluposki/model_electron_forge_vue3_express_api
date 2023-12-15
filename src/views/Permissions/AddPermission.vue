@@ -1,25 +1,55 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import { Emitter } from "../../utils/Emitter.js";
 import { api } from "../../axios.js";
 import { showNotification } from "../../components/Layout/NotificationService.js";
 
+const { push } = useRouter();
+
 const keepAlivePermission = "keepAlivePermission";
 
 const permission = ref(null);
+
+const authorizationsList = ref([]);
+
+const authorization = ref([]);
+
 const bgColor = ref("#ede9e9");
-const bgColorFront = ref("#212121");
+const colorFont = ref("#212121");
+
+const description = ref("");
+
+const getAuthorizations = async () => {
+  try {
+    const response = await api.get(`/authorizations`);
+
+    const result = response.data;
+    return result;
+  } catch (error) {
+    if (error.response) {
+      const data = error.response.data;
+      console.log(data);
+      showNotification(error.response.data.error, "error");
+    }
+  }
+};
 
 onMounted(async () => {
   Emitter.emit("route-name", "Adicionar nova permição");
   Emitter.emit("disable-search");
 
+  authorizationsList.value = await getAuthorizations();
+
   if (localStorage.getItem(keepAlivePermission)) {
-    const permissionLocal = JSON.parse(localStorage.getItem(keepAlivePermission));
-    
-    permission.value = permissionLocal.permission
-    bgColor.value = permissionLocal.bgColor
-    bgColorFront.value = permissionLocal.bgColorFront
+    const permissionLocal = JSON.parse(
+      localStorage.getItem(keepAlivePermission)
+    );
+
+    permission.value = permissionLocal.permission;
+    bgColor.value = permissionLocal.bgColor;
+    colorFont.value = permissionLocal.colorFont;
+    description.value = permissionLocal.description
   }
 });
 
@@ -28,18 +58,25 @@ let saveLocalTimeout;
 const keepAlive = () => {
   clearTimeout(saveLocalTimeout);
   saveLocalTimeout = setTimeout(() => {
-    localStorage.setItem("keepAlivePermission", JSON.stringify({ 
-      permission: permission.value,
-      bgColor: bgColor.value,
-      bgColorFront: bgColorFront.value
-    }));
+    localStorage.setItem(
+      "keepAlivePermission",
+      JSON.stringify({
+        permission: permission.value,
+        bgColor: bgColor.value,
+        colorFont: colorFont.value,
+        authorization: authorization.value,
+        description: description.value
+      })
+    );
   }, 2000);
 };
 
 const clear = () => {
-  permission.value = null
-  bgColor.value = "#ede9e9"
-  bgColorFront.value = "#212121"
+  permission.value = null;
+  bgColor.value = "#ede9e9";
+  colorFont.value = "#212121";
+  authorization.value = ""
+  description.value = ""
   localStorage.removeItem(keepAlivePermission);
 };
 
@@ -50,14 +87,16 @@ const registerPermission = async () => {
     const response = await api.post(`/permissions`, {
       permission: permission.value,
       bgColor: bgColor.value,
-      bgColorFront: bgColorFront.value
+      colorFont: colorFont.value,
+      description: description.value,
+      authorizations: authorization.value,
     });
 
-    console.log("response.data", response.data)
     const { message } = response.data;
 
     showNotification(message, "success");
     clear();
+    push("/permissions");
   } catch (error) {
     if (error.response) {
       const data = error.response.data;
@@ -69,7 +108,6 @@ const registerPermission = async () => {
 </script>
 <template>
   <div class="page-i">
-
     <div class="form-control">
       <label for="permission"><sup>*</sup>Permição:</label>
       <input
@@ -97,24 +135,63 @@ const registerPermission = async () => {
       </div>
 
       <div class="form-control">
-        <label for="bgColorFront"><sup>*</sup>Cor da fonte:</label>
+        <label for="colorFont"><sup>*</sup>Cor da fonte:</label>
         <input
           type="color"
           tabindex="3"
           @keypress="keepAlive"
-          id="bgColorFront"
+          id="colorFont"
           class="input"
-          v-model="bgColorFront"
+          v-model="colorFont"
         />
       </div>
-
     </div>
 
-    {{  bgColorFront }} - {{   bgColor }}
+    <p class="text-info">
+      Neste local, é possível selecionar quais módulos terão permissão de
+      acesso.
+    </p>
+
+    <ul class="list">
+      <li
+        :class="
+          authorization.includes(item) ? 'item-list checked' : 'item-list'
+        "
+        v-for="(item, index) in authorizationsList"
+        :key="index"
+      >
+        <label :for="item">{{ item }}</label>
+        <input
+          type="checkbox"
+          :id="item"
+          class="input"
+          v-model="authorization"
+          :value="item"
+        />
+      </li>
+    </ul>
+
+    {{ authorization }}
+
+    <div class="form-control">
+      <label for="description"><sup>*</sup>Descrição:</label>
+      <textarea
+        name="description"
+        v-model="description"
+        id="description"
+        placeholder="Descreva o a permição"
+        tabindex="2"
+        @keypress="keepAlive"
+      ></textarea>
+    </div>
 
     <div class="form-group space-between mt-40 mb-40 mh-4 ph-12">
       <button class="btn btn-large muted" @click="clear">Limpar</button>
-      <button class="btn btn-large primary" tabindex="2" @click="registerPermission">
+      <button
+        class="btn btn-large primary"
+        tabindex="2"
+        @click="registerPermission"
+      >
         Adicionar
       </button>
     </div>
@@ -122,38 +199,40 @@ const registerPermission = async () => {
 </template>
 
 <style scoped>
-.panel-img {
-  flex: 1;
-  min-width: 150px;
-  max-width: 150px;
-  max-height: 150px;
-  min-height: 150px;
+.list {
+  margin: 10px 4px 0 4px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+}
 
-  border-radius: 6px;
-  background-color: var(--white2);
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
+.item-list {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background-color: var(--white3);
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
 
-  background-size: cover;
-  background-position: center;
-
+.item-list > label {
+  flex: 1;
   cursor: pointer;
 }
 
-.panel-img:hover {
-  transition: background-color ease 0.4s;
-  background-color: var(--white3);
+.checked {
+  background-color: var(--white);
 }
 
-.panel-img:active {
-  scale: 0.97;
-}
-
-.panel-img > i {
-  font-size: 5rem;
-  color: var(--silver);
+.checked > label {
+  font-weight: bold;
+  text-transform: capitalize;
+  color: var(--dark2);
+  font-size: 1.4rem;
 }
 </style>

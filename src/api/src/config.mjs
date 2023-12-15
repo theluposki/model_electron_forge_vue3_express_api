@@ -15,8 +15,16 @@ const websocket = {
   cors,
 };
 
+
+const authorizationsList = [
+  'usuários',
+  'permições',
+  'produtos'
+]
+
 export default {
   app,
   cors,
-  websocket
+  websocket,
+  authorizationsList
 }

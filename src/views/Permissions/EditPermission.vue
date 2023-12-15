@@ -11,16 +11,29 @@ const permissionId = ref("");
 
 const permission = ref(null);
 
-const authorizationsList = ref([
-      'usuários',
-      'permições',
-      'produtos'
-])
+const authorizationsList = ref([])
 
 const authorization = ref([]);
 
+const description = ref("");
+
 const bgColor = ref("#ede9e9");
-const bgColorFront = ref("#212121");
+const colorFont = ref("#212121");
+
+const getAuthorizations = async () => {
+  try {
+    const response = await api.get(`/authorizations`);
+
+    const result = response.data;
+    return result;
+  } catch (error) {
+    if (error.response) {
+      const data = error.response.data;
+      console.log(data);
+      showNotification(error.response.data.error, "error");
+    }
+  }
+};
 
 const getPermission = async () => {
   if (!permissionId.value) return;
@@ -29,7 +42,7 @@ const getPermission = async () => {
     const response = await api.get(`/permissions/${permissionId.value}`);
 
     const result = response.data;
-    console.log(result);
+  
     return result;
   } catch (error) {
     if (error.response) {
@@ -45,28 +58,35 @@ onMounted(async () => {
   Emitter.emit("disable-search");
   permissionId.value = params.id;
 
+  authorizationsList.value = await getAuthorizations();
+
   const permissionLocal = await getPermission();
 
   permission.value = permissionLocal.permission;
   bgColor.value = permissionLocal.bgColor;
-  bgColorFront.value = permissionLocal.bgColorFront;
+  colorFont.value = permissionLocal.colorFont;
+  description.value = permissionLocal.description;
+  authorization.value = JSON.parse(permissionLocal.authorizations);
 });
 
-const clear = () => {
+const clear = async () => {
   permission.value = null;
   bgColor.value = "#ede9e9";
-  bgColorFront.value = "#212121";
+  colorFont.value = "#212121";
+  description.value = "";
+  authorization.value = []
 };
 
 const updatePermission = async () => {
   if (!permission.value) return;
-  console.log(permission.value);
 
   try {
     const response = await api.put(`/permissions/${permissionId.value}`, {
       permission: permission.value,
       bgColor: bgColor.value,
-      bgColorFront: bgColorFront.value,
+      colorFont: colorFont.value,
+      description: description.value,
+      authorizations: authorization.value
     });
 
     const { message } = response.data;
@@ -109,23 +129,26 @@ const updatePermission = async () => {
       </div>
 
       <div class="form-control">
-        <label for="bgColorFront"><sup>*</sup>Cor da fonte:</label>
+        <label for="colorFont"><sup>*</sup>Cor da fonte:</label>
         <input
           type="color"
           tabindex="3"
-          id="bgColorFront"
+          id="colorFont"
           class="input"
-          v-model="bgColorFront"
+          v-model="colorFont"
         />
       </div>
     </div>
 
+    <p class="text-info">
+      Neste local, é possível selecionar quais módulos terão permissão de acesso.
+    </p>
+
     <ul class="list">
-      <li :class="authorization.includes(item) ? 'item-list checked' : 'item-list' " v-for="(item, index) in authorizationsList" :key="index" >
+      <li :class="{ 'item-list': true, 'checked': authorization?.includes(item) }" v-for="(item, index) in authorizationsList" :key="index" >
         <label :for="item">{{ item  }}</label>
           <input
             type="checkbox"
-
             :id="item"
             class="input"
             v-model="authorization"
@@ -134,13 +157,22 @@ const updatePermission = async () => {
       </li>
     </ul>
 
-    {{  authorization }}
+    <div class="form-control">
+      <label for="description"><sup>*</sup>Descrição:</label>
+      <textarea
+        name="description"
+        v-model="description"
+        id="description"
+        placeholder="Descreva o a permição"
+        tabindex="4"
+      ></textarea>
+    </div>
 
     <div class="form-group space-between mt-40 mb-40 mh-4 ph-12">
       <button class="btn btn-large muted" @click="clear">Limpar</button>
       <button
         class="btn btn-large green"
-        tabindex="4"
+        tabindex="5"
         @click="updatePermission"
       >
         Atualizar
@@ -151,7 +183,7 @@ const updatePermission = async () => {
 
 <style scoped>
 .list {
-  margin: 20px 4px 0 4px;
+  margin: 10px 4px 0 4px;
   border-radius: 4px;
   display: flex;
   flex-direction: column;

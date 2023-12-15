@@ -70,8 +70,10 @@ onMounted(async () => {
         <span><b>Permição: </b>{{ permission?.permission }}</span>
         <span class="title-details"><b>Cor de fundo: </b><span class="ball" :style="`background-color: ${permission?.bgColor};`"></span> </span>
         <span class="title-details"><b>Cor da fonte: </b> <span class="ball" :style="`background-color: ${permission?.bgColorFront};`"></span></span>
+        <span><b>Autorizações: </b> <span class="authorization" :style="`background-color: ${permission.bgColor}; color: ${permission.colorFont}; `" v-for="authorization in JSON.parse(permission?.authorizations)">{{ authorization }}</span></span>
         <span><b>Criado em: </b>{{ formatDateOnly(permission?.created_at) }}</span>
         <span><b>Modificado em: </b>{{ formatDateOnly(permission?.update_at) }}</span>
+        <span><b>Descrição: </b>{{ permission?.description }}</span>
       </div>
     </div>
     <div class="actions">
@@ -126,6 +128,11 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.details > span {
+  display: flex;
+  gap: 4px;
 }
 
 .title-details {

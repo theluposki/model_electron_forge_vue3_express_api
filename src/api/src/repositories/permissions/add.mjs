@@ -5,7 +5,7 @@ import { logger } from "../../utils/index.mjs";
 export const AddPermissionRepo = async (body) => {
   const id = randomUUID();
 
-  const { permission, bgColor, bgColorFront } = body;
+  const { permission, bgColor, colorFont, authorizations } = body;
 
   const db = await databasePromise;
 
@@ -19,13 +19,14 @@ export const AddPermissionRepo = async (body) => {
       return { error: "existing permission." };
     }
 
-    const query = `INSERT INTO permissions (id, permission,  bgColor, bgColorFront) VALUES (?, ?, ?, ?);`;
+    const query = `INSERT INTO permissions (id, permission,  bgColor, colorFont, authorizations) VALUES (?, ?, ?, ?, ?);`;
 
     const row = await db.run(query, [
       id,
       permission,
       bgColor,
-      bgColorFront
+      colorFont,
+      JSON.stringify(authorizations) 
     ]);
 
     if (row.changes === 1) {
