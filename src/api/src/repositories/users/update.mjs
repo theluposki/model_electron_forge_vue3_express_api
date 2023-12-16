@@ -12,10 +12,34 @@ export const updateRepo = async (id, body) => {
     if (!userExists) return { error: "User not found." };
 
     const birthDateInMilliseconds = new Date(birthDate).getTime();
-    const hashPasswordText = await hashPassword.hash(password);
+    
+    
+    if(password) {
+      const hashPasswordText = await hashPassword.hash(password);
+
+      const query = `UPDATE users
+      SET name = ?, image = ?, email = ?, password = ?, birthDate = ?, permission = ?, update_at = ?
+      WHERE id = ?
+      `;
+
+      const row = await db.run(query, [
+        name,
+        image,
+        email,
+        hashPasswordText,
+        birthDateInMilliseconds,
+        permission,
+        new Date().getTime(),
+        id
+      ]);
+
+      if (row.changes === 1) {
+        return { message: "Atualizado com sucesso!" };
+      }
+    }
 
     const query = `UPDATE users
-    SET name = ?, image = ?, email = ?, password = ?, birthDate = ?, permission = ? 
+    SET name = ?, image = ?, email = ?, birthDate = ?, permission = ?, update_at = ?
     WHERE id = ?
     `;
 
@@ -23,9 +47,9 @@ export const updateRepo = async (id, body) => {
       name,
       image,
       email,
-      hashPasswordText,
       birthDateInMilliseconds,
       permission,
+      new Date().getTime(),
       id
     ]);
 

@@ -17,9 +17,11 @@ const websocket = {
 
 
 const authorizationsList = [
+  'dashboard',
   'usuários',
-  'permições',
-  'produtos'
+  'permissões',
+  'produtos',
+  'about'
 ]
 
 export default {

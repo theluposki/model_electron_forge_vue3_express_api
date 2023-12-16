@@ -54,7 +54,7 @@ const deletepermission = async () => {
 };
 
 onMounted(async () => {
-  Emitter.emit("route-name", "Detalhe da permição");
+  Emitter.emit("route-name", "Detalhe da permissão");
   Emitter.emit("disable-search");
   Emitter.emit("enable-viewDetails");
 
@@ -67,7 +67,7 @@ onMounted(async () => {
   <div class="page-i page-details">
     <div class="top" v-if="permission.permission">
       <div class="details">
-        <span><b>Permição: </b>{{ permission?.permission }}</span>
+        <span><b>Permissão: </b>{{ permission?.permission }}</span>
         <span class="title-details"><b>Cor de fundo: </b><span class="ball" :style="`background-color: ${permission?.bgColor};`"></span> </span>
         <span class="title-details"><b>Cor da fonte: </b> <span class="ball" :style="`background-color: ${permission?.bgColorFront};`"></span></span>
         <span><b>Autorizações: </b> <span class="authorization" :style="`background-color: ${permission.bgColor}; color: ${permission.colorFont}; `" v-for="authorization in JSON.parse(permission?.authorizations)">{{ authorization }}</span></span>
@@ -79,11 +79,11 @@ onMounted(async () => {
     <div class="actions">
       <button class="btn btn-large mt-20 yellow" @click="editpermission">
         <i class="ri-edit-2-line"></i>
-        Editar permição
+        Editar permissão
       </button>
       <button class="btn btn-large mt-20 red" @click="deletepermission">
         <i class="ri-delete-bin-5-line"></i>
-        Excluir permição
+        Excluir permissão
       </button>
     </div>
   </div>

@@ -22,7 +22,9 @@ const getPermissionsByPermission = async (permission) => {
 
 export const checkAuthorization = async (permission, module) => {
   const permissionList = await getPermissionsByPermission(permission);
+  console.log(permissionList)
   const authoritations = JSON.parse(permissionList.authorizations);
 
+  // console.log("authoritations: ", authoritations)
   return authoritations.includes(module);
 };

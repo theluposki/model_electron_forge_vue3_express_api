@@ -6,6 +6,7 @@ import { setupDatabase } from "./database/index.mjs";
 import { checkAndCreateDefaultUser } from "./database/generateUserDefault.mjs";
 
 setupDatabase();
+
 await checkAndCreateDefaultUser();
 
 const server = createServer(app);

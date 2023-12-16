@@ -36,6 +36,6 @@ VALUES (
     '#c10006',
     '#ffffff',
     'O administrador possui acesso ilimitado a todas as seções do sistema ou da plataforma.',
-    '["usuários","permições","produtos"]'
+    '["usuários","permissões","produtos"]'
 )
 ON CONFLICT (id) DO NOTHING;

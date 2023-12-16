@@ -58,7 +58,7 @@ const refreshGetPermissions = async () => {
 }
 
 onMounted(async () => {
-  Emitter.emit("route-name", "Lista de permições");
+  Emitter.emit("route-name", "Lista de permissões");
   Emitter.emit("enable-search")
   permissions.value = await getPermissions();
 });

@@ -16,14 +16,16 @@ const logout = () => {
 
 const modules = ref({
   "usuários": false,
-  "permições": false,
+  "permissões": false,
   "produtos": false,
 })
 
 const fnCheckAuthorization = async (module) => {
   const result = await checkAuthorization(user.value.permission, module) // : Boolean
 
-  modules.value[module] = result
+  // console.log("antes: ", modules.value)
+  modules.value[module] = result;
+  // console.log("depois: ", modules.value);
 }
 
 onMounted(async () => {
@@ -52,9 +54,9 @@ onMounted(async () => {
         <i class="ri-user-line"></i>
         Usuários
       </RouterLink>
-      <RouterLink v-if="modules['permições']" to="/permissions" class="nav-link" active-class="active">
+      <RouterLink v-if="modules['permissões']" to="/permissions" class="nav-link" active-class="active">
         <i class="ri-folder-shield-2-line"></i>
-        Permições
+        Permissões
       </RouterLink>
       <RouterLink v-if="modules['produtos']" to="/product" class="nav-link" active-class="active">
         <i class="ri-product-hunt-line"></i>

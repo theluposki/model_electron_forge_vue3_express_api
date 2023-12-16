@@ -63,6 +63,9 @@ body {
 
 body {
   background-color: var(--white2);
+  background-image: url('assets/img1.jpg');
+  background-size: cover;
+
   color: var(--dark);
   font-size: 1.6rem;
   min-width: 800px;
