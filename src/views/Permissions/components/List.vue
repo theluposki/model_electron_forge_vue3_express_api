@@ -19,7 +19,7 @@ const setLink = (id) => push(`/permissions/view-permission/${id}`)
       </div>
 
       <div class="right">
-        <div>right</div>
+        <div class="description">{{ item.description }}</div>
       </div>
     </li>
   </ul>
@@ -62,6 +62,16 @@ const setLink = (id) => push(`/permissions/view-permission/${id}`)
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.description {
+  font-size: 1.2rem;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40ch;
+  max-height: 20px;
 }
 
 </style>

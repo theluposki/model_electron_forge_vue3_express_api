@@ -22,10 +22,7 @@ const modules = ref({
 
 const fnCheckAuthorization = async (module) => {
   const result = await checkAuthorization(user.value.permission, module) // : Boolean
-
-  // console.log("antes: ", modules.value)
   modules.value[module] = result;
-  // console.log("depois: ", modules.value);
 }
 
 onMounted(async () => {

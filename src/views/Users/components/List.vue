@@ -18,7 +18,7 @@ const setLink = (id) => push(`/users/view-user/${id}`)
         <div class="image">
           <img :src="item.image" alt="imagem do usuário" loading="lazy">
         </div>
-        <div>{{ item.name }}</div>  
+        <div class="name">{{ item.name }}</div>  
       </div>
 
       <div class="right">
@@ -45,7 +45,7 @@ const setLink = (id) => push(`/users/view-user/${id}`)
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  padding: 0 12px;
+  padding: 0 4px;
 
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   cursor: pointer;
@@ -79,12 +79,14 @@ const setLink = (id) => push(`/users/view-user/${id}`)
   object-fit: cover;
   object-position: center center;
 }
+.name {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
 
 .item-list > .right {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-
-
 </style>

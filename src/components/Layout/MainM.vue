@@ -1,6 +1,15 @@
 <script setup>
+import { computed } from "vue";
 import { RouterView } from "vue-router";
 import NavM from "./NavM.vue";
+import NavConversations from "./NavConversations.vue";
+import Conversation from "./Conversation.vue";
+import { useConversationStore } from "../../stores/conversation.js";
+
+const conversationStore = useConversationStore();
+
+const isVisibleConversation = computed(() => conversationStore.isVisibleConversation);
+
 </script>
 
 <template>
@@ -10,11 +19,14 @@ import NavM from "./NavM.vue";
     <main class="ViewsM">
       <RouterView />
     </main>
+    <Conversation v-if="isVisibleConversation"/>
+    <NavConversations />
   </main>
 </template>
 
 <style scoped>
 .MainM {
+  position: relative;
   flex: 1;
   display: flex;
   gap: 12px;

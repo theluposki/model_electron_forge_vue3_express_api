@@ -15,7 +15,7 @@ export const updateRepo = async (id, body) => {
     if (!existingPermission) return { error: "permission does not exist." };
 
     const query = `UPDATE permissions
-    SET permission = ?, bgColor = ?, colorFont = ?, description = ?, authorizations = ? 
+    SET permission = ?, bgColor = ?, colorFont = ?, description = ?, authorizations = ?, update_at = ? 
     WHERE id = ?
     `;
 
@@ -25,6 +25,7 @@ export const updateRepo = async (id, body) => {
       colorFont,
       description,
       JSON.stringify(authorizations),
+      new Date().getTime(),
       id,
     ]);
 
